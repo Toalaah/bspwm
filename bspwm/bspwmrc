@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+bash "$HOME/.config/bspwm/scripts/autostart"
+
+function opt() { bspc config "$1" "$2"; }
+
+xsetroot -cursor_name left_ptr
+opt border_width 1
+opt window_gap 4
+opt split_ratio 0.50
+opt focus_follows_pointer true
+opt borderless_monocle false
+opt gapless_monocle true
+config pointer_modifier mod4
+config pointer_action1 move
+config pointer_action2 resize_side
+config pointer_action2 resize_corner
+
+bspc rule -a Zathura state=tiled
+
+# TODO: add multi-monitor support
+bspc monitor primary -d 1 2 3 4 5 6

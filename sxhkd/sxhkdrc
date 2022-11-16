@@ -1,0 +1,115 @@
+# window manager independent bindings
+
+# lauch dmenu helper scripts
+super + b; {p,b}
+  dmenu-{pass,bookmarks}
+
+super + Return
+  "$TERMINAL" || notify-send -u critical 'Please set $TERMINAL env variable'
+
+super + p
+  dmenu_run -l 20 -c
+
+# reload sxhkd config
+super + Escape
+  pkill -USR1 -x sxhkd; notify-send "Keybindings reloaded"
+
+super + F1
+  set-wallpaper
+
+super + F{2,3,4,6}
+  dmenu-{net,mount,vpn,logout}
+
+# quit/restart bspwm
+super + shift + {q,r}
+    bspc {quit,wm -r}
+
+# close and kill
+super + q
+    bspc node -c
+
+super + shift + b
+  ~/.config/bspwm/scripts/bspwm_toggle_bar
+
+# swap to last used desktop
+super + Tab
+    bspc desktop --focus last
+
+# swap the current node and the biggest node
+super + shift + Return
+    ~/.config/bspwm/scripts/bspwm_swap_master
+
+# set the window state
+super + l; {t,space,f}
+    bspc node -t {tiled,floating,fullscreen}
+
+# toggle desktop layout
+super + m
+    bspc desktop -l next
+
+# focus the next/previous node in the current desktop
+super + {j,k}
+    bspc node -f {next,prev}.local.!hidden.window
+
+# focus the next/previous desktop in the current monitor
+super + {u,o}
+    bspc desktop -f {prev,next}.local
+
+# focus the last node/desktop
+super + {grave,Tab}
+    bspc {node,desktop} -f last
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9}
+    bspc {desktop -f,node -d} '^{1-9}'
+
+# move/resize
+
+# change / reset gap size
+super + shift + {j,k,l}
+  ~/.config/bspwm/scripts/bspwm_gaps {decrease,increase,reset}
+
+# resize window
+super + ctrl + {h,j,k,l}
+  ~/.config/bspwm/scripts/bspwm_resize resize {left,down,up,right}
+
+# contract floating windows
+super + ctrl + shift + {h,j,k,l}
+  ~/.config/bspwm/scripts/bspwm_resize contract {left, down, up, right}
+
+# move floating window around
+super + alt + {h,j,k,l}
+    bspc node -v {-15 0,0 15,0 -15,15 0}
+
+super + w
+    "$BROWSER" || notify-send -u critical 'Please set $BROWSER env variable'
+
+super + shift + Escape
+  lock
+
+# set volume
+super + {0,minus,equal}
+    set-volume {-m,-d,-i}
+
+# same thing but mapped to media keys
+{XF86AudioMute,XF86AudioLowerVolume,XF86AudioRaiseVolume}
+  set-volume {-m,-d,-i}
+
+XF86MonBrightnessUp
+  set-brightness -i
+
+XF86MonBrightnessDown
+  set-brightness -d
+
+XF86AudioMicMute
+  toggle-microphone
+
+XF86WLAN
+  toggle-wifi
+
+super + shift + space
+  flameshot gui -c
+
+super + comma
+  if [ $(eww get control_panel_visible) = "true" ]; then a=false; else a=true; fi; \
+  eww update control_panel_visible=$a
