@@ -4,6 +4,7 @@ pkill bspc
 pkill eww
 pkill sxhkd
 pkill bspswallow
+pkill picom
 
 run() {
   # shellcheck disable=SC2068
